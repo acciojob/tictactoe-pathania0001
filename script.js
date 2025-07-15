@@ -9,7 +9,7 @@ const button = document.getElementById("submit");
 let player1 = "";
 let player2 = "";
 let turn = "";
-let currText = "X";
+let currText = "x";
 let winner = null;
 
 // 3x3 result matrix
@@ -94,7 +94,7 @@ function handleDivClick(div) {
 
   // Toggle turn
   turn = turn === player1 ? player2 : player1;
-  currText = currText === "X" ? "O" : "X";
+  currText = currText === "x" ? "o" : "x";
   message.innerText = `${turn}, you're up`;
 }
 
