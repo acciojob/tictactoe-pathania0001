@@ -1,75 +1,106 @@
-//your JS code here. If required.
 const firstpage = document.getElementById("first-page");
 const board = document.getElementsByClassName("board")[0];
-board.style.display = "none";
 const inputplayer1 = document.getElementById("player1");
 const inputplayer2 = document.getElementById("player2");
-let player1,player2;
-let turn,currText="X";
-let winner = null;
 const message = document.getElementsByClassName("message")[0];
-
-const grid = document.getElementsByClassName("grid")[0]
-
+const grid = document.getElementsByClassName("grid")[0];
 const button = document.getElementById("submit");
-let res = [["","",""],["","",""],["","",""]]
- const verifyResult = (res)=>{
-	 console.log(res)
-   return ((res[0]===res[1] && res[0]===res[2] && res[0]!=="") ? {value:res[0],cols :[0,1,2]} :
-    (res[3]===res[4] && res[4]===res[5] && res[3]!=="") ? {value:res[3],cols :[3,4,5]} :
-    (res[6]===res[7] && res[7]===res[8] && res[6]!=="") ? {value:res[6],cols :[6,7,8]} :
-    (res[0]===res[3] && res[3]===res[6] && res[0]!=="") ? {value:res[0],cols :[0,3,6]}:
-    (res[1]===res[4] && res[4]===res[7] && res[1]!=="") ? {value:res[1],cols :[1,4,7]}:
-    (res[2]===res[5] && res[5]===res[8] && res[2]!=="") ? {value:res[2],cols :[2,5,8]} :
-    (res[0]===res[4] && res[4]===res[8] && res[0]!=="") ?{value:res[0],cols :[0,4,8]}:
-    (res[2]===res[4] && res[4]===res[6] && res[2]!=="") ?{value:res[2],cols :[2,4,6]} :
-    null)
-		   
- }
-inputplayer1.oninput=(e)=>{
-handleInput(e,"player1")
-}
-inputplayer2.oninput=(e)=>{
-	handleInput(e,"player2");
-}
-function handleInput (e,player){
-	player==="player1" ? 
-		player1 = e.target.value:
-		player2 = e.target.value;
+
+let player1 = "";
+let player2 = "";
+let turn = "";
+let currText = "X";
+let winner = null;
+
+// 3x3 result matrix
+let res = [
+  ["", "", ""],
+  ["", "", ""],
+  ["", "", ""]
+];
+
+// Verify if any player has won
+const verifyResult = (res) => {
+  // Rows
+  for (let i = 0; i < 3; i++) {
+    if (res[i][0] && res[i][0] === res[i][1] && res[i][1] === res[i][2]) {
+      return { value: res[i][0] };
+    }
+  }
+  // Columns
+  for (let j = 0; j < 3; j++) {
+    if (res[0][j] && res[0][j] === res[1][j] && res[1][j] === res[2][j]) {
+      return { value: res[0][j] };
+    }
+  }
+  // Diagonals
+  if (res[0][0] && res[0][0] === res[1][1] && res[1][1] === res[2][2]) {
+    return { value: res[0][0] };
+  }
+  if (res[0][2] && res[0][2] === res[1][1] && res[1][1] === res[2][0]) {
+    return { value: res[0][2] };
+  }
+  return null;
+};
+
+// Start Game
+function handleClickStart() {
+  player1 = inputplayer1.value.trim();
+  player2 = inputplayer2.value.trim();
+
+  if (!player1 || !player2) {
+    alert("Both player names are required!");
+    return;
+  }
+
+  firstpage.style.display = "none";
+  board.style.display = "block";
+  currText = "X";
+  turn = player1;
+  winner = null;
+
+  // Clear previous game state
+  res = [["", "", ""], ["", "", ""], ["", "", ""]];
+  Array.from(grid.children).forEach((div) => {
+    div.innerText = "";
+    div.style.pointerEvents = "auto";
+  });
+
+  message.innerText = `${turn}, you're up`;
 }
 
-function handleClickStart (){
-	firstpage.style.display= "none";
-	board.style.display = "block";
-	turn  = "Player1";
-	message.innerText=`${turn},you're up`;
-	currText = "X";
+// Handle click on grid cell
+function handleDivClick(div) {
+  if (div.innerText !== "" || winner !== null) return;
+
+  div.innerText = currText;
+  const index = Number(div.id) - 1;
+  const row = Math.floor(index / 3);
+  const col = index % 3;
+
+  res[row][col] = currText;
+
+  const final = verifyResult(res);
+
+  if (final && final.value !== undefined) {
+    message.innerText = `${turn} congratulations you won!`;
+    winner = final.value;
+    // Disable all cells
+    Array.from(grid.children).forEach((cell) => {
+      cell.style.pointerEvents = "none";
+    });
+    return;
+  }
+
+  // Toggle turn
+  turn = turn === player1 ? player2 : player1;
+  currText = currText === "X" ? "O" : "X";
+  message.innerText = `${turn}, you're up`;
 }
 
-function handleDivCLick(div){
-  if(div.innerText !=="" || winner!==null)
-	  return;
-	
-div.innerText=`${currText}`;
-	res[Number(div.id)-1] = currText;
-	const final = verifyResult(res);
-	if(final!=null &&final.value !== undefined){
-		message.innerText=`${turn},congratulations you won!`;
-		winner = "declare";
-		return
-	}
-turn = turn === "Player1" ? "Player2":"Player1" ;
-	message.innerText=`${turn},you're up`;
-  div.style.pointerEvent="none"
-   if(currText==="X")
-	   currText="O";
-	else
-	   currText="X"
-}
-button.onclick = handleClickStart
-Array.from(grid.children).forEach((div)=>{
-	div.addEventListener("click",(e)=>(handleDivCLick(div)))
-})
+button.onclick = handleClickStart;
 
-
-
+// Bind all grid cell clicks
+Array.from(grid.children).forEach((div) => {
+  div.addEventListener("click", () => handleDivClick(div));
+});

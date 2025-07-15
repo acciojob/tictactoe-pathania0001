@@ -1,41 +1,57 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .board {
+      display: none;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      grid-template-rows: repeat(3, 60px);
+      gap: 5px;
+    }
+    .grid div {
+      border: 2px solid black;
+      text-align: center;
+      font-size: 24px;
+      line-height: 60px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-
 <body>
-	 <div class="container">
-		   <div id="first-page">
-			 <h1>Tic Tac Toe</h1>
-			 <label for="player1">Player 1</label>
-			 <input type="text" id="player1" placeholder="enter name">
-			 <label for="player2">Player 2</label>
-			 <input type="text" id="player2" placeholder="enter name">
-			 <button type="submit" id="submit">submit</button>
-		 </div>
-		 <div class="board">
-			 <h1>Tic Tac Toe</h1>
-			<div class="message"></div>
-			 <div class="grid">
-				 <div id="1"></diV>
-				 <div id="2"></diV>
-				 <div id="3"></diV>
-				 <div id="4"></diV>
-				 <div id="5"></diV>
-				 <div id="6"></diV>
-				 <div id="7"></diV>
-				 <div id="8"></diV>
-				 <div id="9"></diV>
-			 </div>
-		 </div>
-	 </div>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <div class="container">
+    <div id="first-page">
+      <h1>Tic Tac Toe</h1>
+      <label for="player1">Player 1</label>
+      <input type="text" id="player1" placeholder="Enter name" />
+      <label for="player2">Player 2</label>
+      <input type="text" id="player2" placeholder="Enter name" />
+      <button id="submit">Start Game</button>
+    </div>
 
+    <div class="board">
+      <h1>Tic Tac Toe</h1>
+      <div class="message"></div>
+      <div class="grid">
+        <div id="1"></div>
+        <div id="2"></div>
+        <div id="3"></div>
+        <div id="4"></div>
+        <div id="5"></div>
+        <div id="6"></div>
+        <div id="7"></div>
+        <div id="8"></div>
+        <div id="9"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
 </body>
-
 </html>
