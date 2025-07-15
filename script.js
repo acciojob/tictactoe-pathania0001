@@ -41,7 +41,7 @@ function handleInput (e,player){
 function handleClickStart (){
 	firstpage.style.display= "none";
 	board.style.display = "block";
-	turn  = player1;
+	turn  = "player1";
 	message.innerText=`${turn},you're up`;
 	currText = "X";
 }
@@ -58,7 +58,7 @@ div.innerText=`${currText}`;
 		winner = "declare";
 		return
 	}
-turn = turn === player1 ? player2:player1 ;
+turn = turn === "player1" ? "player2":"player1" ;
 	message.innerText=`${turn},you're up`;
   div.style.pointerEvent="none"
    if(currText==="X")
