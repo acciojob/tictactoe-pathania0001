@@ -2,8 +2,8 @@
 const firstpage = document.getElementById("first-page");
 const board = document.getElementsByClassName("board")[0];
 board.style.display = "none";
-const inputplayer1 = document.getElementById("player-1");
-const inputplayer2 = document.getElementById("player-2");
+const inputplayer1 = document.getElementById("player1");
+const inputplayer2 = document.getElementById("player2");
 let player1,player2;
 let turn,currText="X";
 let winner = null;
@@ -39,7 +39,6 @@ function handleInput (e,player){
 }
 
 function handleClickStart (){
-	console.log("okkk")
 	firstpage.style.display= "none";
 	board.style.display = "block";
 	turn  = player1;
@@ -54,7 +53,6 @@ function handleDivCLick(div){
 div.innerText=`${currText}`;
 	res[Number(div.id)-1] = currText;
 	const final = verifyResult(res);
-	console.log(final)
 	if(final!=null &&final.value !== undefined){
 		message.innerText=`${turn},congratulations you won!`;
 		winner = "declare";
