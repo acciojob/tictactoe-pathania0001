@@ -55,7 +55,7 @@ function handleClickStart() {
 
   firstpage.style.display = "none";
   board.style.display = "block";
-  currText = "X";
+  currText = "x";
   turn = player1;
   winner = null;
 
